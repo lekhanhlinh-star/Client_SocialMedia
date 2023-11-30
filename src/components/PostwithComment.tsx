@@ -98,7 +98,7 @@ export function PostWithComment() {
     return (
         <>
             <Header lastName={"Linh"} firstName={"Le"}
-                                    profilePic={""} />
+                profilePic={""} />
             <Flex letterSpacing={2}>
                 <Sidebar />
 
