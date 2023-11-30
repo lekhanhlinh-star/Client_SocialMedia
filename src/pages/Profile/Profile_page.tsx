@@ -35,7 +35,7 @@ export function Profile_page() {
 
 
                 {/*<Formpost/>*/}
-                {/*<Tabnav_profile></Tabnav_profile>*/}
+                <Tabnav_profile></Tabnav_profile>
 
             </Container>
         </Flex>

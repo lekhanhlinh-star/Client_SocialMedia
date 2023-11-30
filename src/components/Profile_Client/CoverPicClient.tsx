@@ -29,8 +29,8 @@ import axios from "axios";
 import {useParams} from "react-router-dom";
 
 interface ProfileInfo {
-    firstName: string;
-    lastName: string;
+    firstName: string|undefined;
+    lastName: string|undefined;
     profilePic: string|undefined ;
     coverPhoto: string|undefined ;
 

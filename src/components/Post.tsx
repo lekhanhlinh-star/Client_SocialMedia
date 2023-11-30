@@ -218,6 +218,9 @@ export default function Post(data: any) {
 
 
     const profileclick = () => {
+        const _id =data.data.postedBy["_id"]
+        navigate("/profile/" + _id);
+
     }
 
     const postclick = (id: string) => {

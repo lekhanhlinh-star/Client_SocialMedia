@@ -66,7 +66,7 @@ export const Profile_page_client = () => {
                 <Box bg={"gray.200"} alignItems={"center"}>
 
 
-                    <CoverPicClient lastName={"Linh"} firstName={"Le"} coverPhoto={profileinfo?.coverPhoto.filename}
+                    <CoverPicClient lastName={profileinfo?.firstName} firstName={profileinfo?.lastName} coverPhoto={profileinfo?.coverPhoto.filename}
                                     profilePic={profileinfo?.profilePic.filename}></CoverPicClient>
 
                 </Box>
