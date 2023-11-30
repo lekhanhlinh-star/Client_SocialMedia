@@ -22,6 +22,7 @@ import React, { useEffect,useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login_page() {
+
     const navigate=useNavigate();
     const toast = useToast()
     const [inputLoginBody, setInputLoginBody] = useState({
@@ -57,7 +58,7 @@ export default function Login_page() {
 
             }).catch(e => {
                 console.log(e);
-                if (e.response.status == 400) {
+                if (e.response.status == 401) {
                     toast({
                         title: "Invalid email or password",
                         status: 'error',
@@ -65,7 +66,7 @@ export default function Login_page() {
                         isClosable: true,
                         position: 'top',
                     })
-                } else if (e.response.status == 401) {
+                } else if (e.response.status == 400) {
                     toast({
                         title: "Please provide email and password",
                         status: 'error',

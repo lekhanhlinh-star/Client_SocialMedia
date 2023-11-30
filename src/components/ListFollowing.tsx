@@ -13,7 +13,7 @@ import {
   DrawerContent,
   useDisclosure,
   BoxProps,
-  FlexProps, Avatar,
+  FlexProps,
 } from '@chakra-ui/react'
 import {
   FiHome,
@@ -23,7 +23,6 @@ import {
   FiSettings,
   FiMenu,
 } from 'react-icons/fi'
-import { HiOutlineLogout } from "react-icons/hi";
 import { IconType } from 'react-icons'
 import { ReactText } from 'react'
 
@@ -37,17 +36,17 @@ const LinkItems: Array<LinkItemProps> = [
   { name: 'Trending', icon: FiTrendingUp,link:"/home"  },
   { name: 'Explore', icon: FiCompass,link:"/home"  },
   { name: 'Favourites', icon: FiStar,link:"/home"  },
-  { name: 'Logout', icon: HiOutlineLogout,link:"/home"  },
+  { name: 'Settings', icon: FiSettings,link:"/home"  },
 ]
 
-export default function Sidebar() {
+export default function ListFollowing() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
     <Box minH="100vh" bg={useColorModeValue("white", 'gray.900')}>
       <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         isOpen={isOpen}
-        placement="right"
+        placement="left"
         onClose={onClose}
         returnFocusOnClose={false}
         onOverlayClick={onClose}
@@ -74,37 +73,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
     <Box
       borderRight="1px"
       borderRightColor={useColorModeValue('gray.200', 'gray.700')}
-      w={{ base: 'full', md: 60 }}
+      w={{ base: 'full' }}
       pos="fixed"
       h="full"
       {...rest}>
-      <Box
-            as="a"
-       href={"/profile"}
-            style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}>
-
-        <Flex
-
-        align="center"
-        p="4"
-        mx="4"
-        mt={3}
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "rgb(215,36,141)",
-          color: 'white',
-            bgGradient:"linear(to-l, #7928CA, #FF0080)"
-        }}><Avatar ></Avatar>
-          <Text ml={2}  fontSize='xs'  noOfLines={1}  as='b'>
-            Lee Khanh Linh
-          </Text>
-        </Flex>
-
-
-      </Box>
 
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} link={link.link}>

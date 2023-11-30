@@ -1,6 +1,6 @@
 import * as React from "react"
 import {Box, ChakraProvider, theme,} from "@chakra-ui/react"
-import {Home_page} from "./pages/home"
+import {Home_page} from "./pages/Home/home"
 import  {Profile_page} from "./pages/Profile/Profile_page";
 import Login_page from "./pages/Auth/Login_page"
 import SignUpPage from "./pages/Auth/SignUpPage";

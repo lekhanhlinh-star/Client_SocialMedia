@@ -15,16 +15,27 @@ import {
     ModalOverlay,
     Spacer,
     Text,
-    useDisclosure
-} from "@chakra-ui/react"
+    useDisclosure,
+    useToast
+} from "@chakra-ui/react";
 import {FcPanorama} from "react-icons/fc";
 import React, {useRef, useState} from "react";
-import axios from 'axios';
-
-export function Formpost() {
-    const {isOpen, onOpen, onClose} = useDisclosure()
+import axios from "axios";
 
 
+
+interface ProfileInfo {
+    firstName:string|undefined
+    lastName: string|undefined
+    profilePic: string|undefined
+
+
+
+}
+export function Formpost( props:ProfileInfo) {
+    const {isOpen, onOpen, onClose} = useDisclosure();
+
+    const toast = useToast();
     const fileInputRef = useRef<HTMLInputElement | null>(null);
 
     const handleClickSelectFile = () => {
@@ -37,7 +48,8 @@ export function Formpost() {
         content: "", image: File || null,
 
     });
-    const [selectedImage, setSelectedImage] = useState<File | null>(null);
+    const [selectedImage, setSelectedImage] = useState<string>("https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg");
+
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = event.target;
@@ -48,10 +60,20 @@ export function Formpost() {
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files && event.target.files[0];
         let {name, value} = event.target;
-        name="image"
+        name = "image";
+        if (selectedFile) {
+            const reader = new FileReader();
 
-        console.log("name",name)
-        console.log("File changed", value)
+            reader.onload = (e) => {
+                if (e.target) {
+                    setSelectedImage(e.target.result as string);
+                }
+            };
+
+            reader.readAsDataURL(selectedFile);
+        }
+        console.log("name", name);
+        console.log("File changed", value);
         setFormDataPost((prevFormDataPost) => ({
             ...prevFormDataPost, [name]: selectedFile,
         }));
@@ -60,22 +82,29 @@ export function Formpost() {
     const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
-            console.log("onSubmit")
+            console.log("onSubmit");
             // Perform any necessary post creation logic here
             console.log(formDataPost);
-            console.log("----loading--")
+            console.log("----loading--");
             const token = localStorage.getItem("token");
 
-            console.log("token", token)
+            console.log("token", token);
 
-            axios.post('http://localhost:5000/api/v1/posts', formDataPost, {
+            axios.post("http://localhost:5000/api/v1/posts", formDataPost, {
                 headers: {
-                    'Content-Type': 'multipart/form-data','authorization': `Bearer ${token}`,
+                    "Content-Type": "multipart/form-data", "authorization": `Bearer ${token}`,
                 },
             }).then(response => {
                 console.log(response.data);
+                toast({
+                    title: "Create new post successful", status: "success", duration: 9000, isClosable: true, position: "top",
+                });
+                window.location.reload();
             }).catch(error => {
-                console.log(error);
+                toast({
+                    title: error.response.data.message, status: "error", duration: 9000, isClosable: true, position: "top",
+                });
+
             });
             // Reset the form
             setFormDataPost({
@@ -83,19 +112,19 @@ export function Formpost() {
             });
 
         } catch (e) {
-            console.log(e)
+            console.log(e);
         }
 
-    }
+    };
 
 
     return (<>
-        <Card minH={"120px"} mb={3}>
+        <Card minH={"120px"} mb={3} mt={10}>
 
 
             <Flex borderRadius={"10px"}>
-                <Center w="100px" ml={10}>
-                    <Avatar></Avatar>
+                <Center ml={10}>
+                        <Avatar name={props.firstName} src={"http://127.0.0.1:5000/uploads/"+props.profilePic}/>
                 </Center>
                 <Spacer/>
                 <Center>
@@ -110,19 +139,23 @@ export function Formpost() {
 
                                 <ModalCloseButton/>
                                 <ModalBody>
-                                    <Avatar></Avatar>
+                                       <Avatar name={props.firstName} src={"http://127.0.0.1:5000/uploads/"+props.profilePic}/>
 
 
-                                    <Input variant='flushed' placeholder="What's on your mind now ?"
+                                    <Input variant="flushed" placeholder="What's on your mind now ?"
 
                                            name="content"
                                            value={formDataPost.content}
                                            onChange={handleInputChange}
 
                                     />
-                                    {previewImage &&
+                                    <Image
+                                        src={selectedImage}
+                                        minWidth="400px" borderRadius={10}
+                                        onClick={handleClickSelectFile}
 
-                                        <Image src={previewImage} alt="Selected Image"/>}
+
+                                    ></Image>
 
                                     <Card mt={2}>
 
@@ -137,7 +170,7 @@ export function Formpost() {
                                             <input
                                                 type="file"
                                                 ref={fileInputRef}
-                                                style={{display: 'none'}}
+                                                style={{display: "none"}}
                                                 onChange={handleFileChange}
                                             />
                                             <Button leftIcon={<FcPanorama/>} onClick={handleClickSelectFile}>Photo/video
@@ -153,7 +186,7 @@ export function Formpost() {
 
                                 <ModalFooter>
 
-                                    <Button colorScheme='blue' mr={3} type="submit"
+                                    <Button colorScheme="blue" mr={3} type="submit"
                                             w={"full"}>
                                         Post
                                     </Button>
@@ -166,10 +199,10 @@ export function Formpost() {
                 </Center>
             </Flex>
             <Flex justify={"space-between"}
-                  alignItems='center'
-                  justifyContent='center' pb={5}>
+                  alignItems="center"
+                  justifyContent="center" pb={5}>
 
-                <Button leftIcon={<FcPanorama/>} aria-label={'Image_post'}
+                <Button leftIcon={<FcPanorama/>} aria-label={"Image_post"}
                         ml={5}>Photo/video</Button>
                 <Spacer/>
                 <Button leftIcon={<FcPanorama/>}>Photo/video</Button>

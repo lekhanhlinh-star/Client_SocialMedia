@@ -20,8 +20,10 @@ import React, {useState} from 'react'
 import {ViewIcon, ViewOffIcon} from '@chakra-ui/icons'
 
 import axios, {isCancel, AxiosError,AxiosResponse} from 'axios';
+import {useNavigate} from "react-router-dom";
 
 export default function SignUpPage() {
+    const navagate=useNavigate()
     const toast=useToast()
     const [InputBodySignUp, setInputBodySignUp] = useState({
         email: '', password: '', firstName: '', lastName: '', passwordConfirm: ""
@@ -58,6 +60,7 @@ export default function SignUpPage() {
                         position: 'top',
                         isClosable: true,
                     })
+
 
             }).catch(e=>
             {

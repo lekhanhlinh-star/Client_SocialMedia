@@ -7,13 +7,13 @@ import {
     Flex,
     Heading,
     HStack,
-    IconButton,
+    IconButton, Image,
     Input,
     Menu,
     MenuButton,
     MenuItem,
     MenuList,
-    Spacer,
+    Spacer, Tooltip,
     WrapItem,
 } from "@chakra-ui/react";
 import {
@@ -29,22 +29,39 @@ import {
     SettingsIcon
 } from "@chakra-ui/icons";
 import React, {useState} from 'react';
+import DrawerExample from "../MessageDrawer"
+interface ProfileInfo {
+    firstName:string|undefined
+    lastName: string|undefined
+    profilePic: string|undefined
 
-interface HeaderProps {
-    avatar: string;
+
+
 }
-
 // 'https://bit.ly/dan-abramov'
-function Header(props: HeaderProps) {
+function Header(props:ProfileInfo ) {
+    console.log(props)
+
 
     const [searchString, setSearchString] = useState("")
 
     return (
 
-        <Box as={"nav"} bg="gray.700" py={3} bgImage="url('https://bit.ly/2Z4KKcF')" position={"sticky"} top={0}
+        <Box as={"nav"} py={3}   position={"sticky"} top={0}
+             bgGradient={"linear(to-l, #7928CA, #FF0080)"}
              zIndex={999}>
             <Flex justify="space-between" align="center" maxW="1400px" mx="auto" color={"white"}>
+
+
+
+                <Avatar as={"a"} href={"/home"} src={"logo.png"}></Avatar>
+                    <Input ml={"5"} width={"250px"} placeholder='Search...' bg={"white"} color={"black"}
+                       value={searchString}
+                       onChange={(e) => setSearchString(e.target.value)}    borderRadius={40}
+                />
+
                 <Spacer/>
+                 <Spacer/>
 
                 <Heading as="h2" size="lg">
                     Social Network
@@ -53,34 +70,22 @@ function Header(props: HeaderProps) {
 
                 <Spacer/>
 
-                <Input width={"400px"} placeholder='Search...' bg={"white"} color={"black"}
-                       value={searchString}
-                       onChange={(e) => setSearchString(e.target.value)}
-                />
-                <Button leftIcon={<Search2Icon/>} mx={"10px"} onClick={() => console.log(searchString)}> Search</Button>
-
-                <Spacer/>
-
                 <HStack>
                     <Breadcrumb spacing='10px' >
-                        <IconButton icon={<DragHandleIcon/>} mx={2} isRound={true} colorScheme='gray' aria-label='Done'
-                                    size={"lg"} _hover={{
-                            background: "white",
-                            color: "teal.500",
-                            text: "Menu"
-                        }}
-                                    _active={{content:'"Done"'}}
-                        >
-                            <BreadcrumbLink href='#'></BreadcrumbLink>
-                        </IconButton>
-                        <IconButton icon={<ChatIcon/>} mx={2} isRound={true} colorScheme='gray' aria-label='Done'
-                                    size={"lg"}>
-                            <BreadcrumbLink href='/message'></BreadcrumbLink>
-                        </IconButton>
+
+
+
+
+
+
+
+                        <DrawerExample/>
+                        <Tooltip hasArrow label='Notification' bg='gray.300' color='black'>
                         <IconButton icon={<BellIcon/>} mx={2} isRound={true} colorScheme='gray' aria-label='Done'
                                     size={"lg"}>
                             <BreadcrumbLink href='#'></BreadcrumbLink>
                         </IconButton>
+                            </Tooltip>
 
 
                     </Breadcrumb>
@@ -88,7 +93,7 @@ function Header(props: HeaderProps) {
                 </HStack>
 
                 <WrapItem paddingX={3}>
-                    <Avatar name='Dan Abrahmov' src={props.avatar}/>
+                    <Avatar  as={"a"} href='/profile' name={props.firstName} src={"http://127.0.0.1:5000/uploads/"+props.profilePic}/>
                 </WrapItem>
                 <IconButton aria-label={"setting"} icon={<SettingsIcon/>} colorScheme='gray.550'  isRound={true} >
                      <BreadcrumbLink href='/profile'></BreadcrumbLink>

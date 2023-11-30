@@ -24,24 +24,21 @@ import {
     ModalHeader,
     ModalOverlay,
     Text,
-    Tooltip,
     useDisclosure
-} from "@chakra-ui/react";
-import {ReplyPost} from "./ReplyPost";
-import {BsThreeDotsVertical} from "react-icons/bs";
-import {DeleteIcon, EditIcon} from '@chakra-ui/icons'
-import {BiChat, BiLike, BiShare} from "react-icons/bi";
-import axios from "axios";
-import React, {useEffect, useRef, useState} from "react";
-import {FcPanorama} from "react-icons/fc";
-import {useNavigate} from "react-router-dom";
+} from "@chakra-ui/react"
+import { FcPanorama } from "react-icons/fc";
+import React, { useEffect, useRef, useState } from "react";
+import axios from 'axios';
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { BiChat, BiLike, BiShare } from "react-icons/bi";
+import { useNavigate } from "react-router-dom";
+import { EditIcon, DeleteIcon } from '@chakra-ui/icons'
 
-
-export default function Post(data: any) {
-
-
+export function ReplyPost(data: any) {
+    console.log(data)
     const { isOpen, onOpen, onClose } = useDisclosure()
     const [previewImage, setPreviewImage] = useState<string | null>(null);
+    console.log(data)
 
     var check_post = false
     try {
@@ -67,9 +64,9 @@ export default function Post(data: any) {
             try {
                 if (data.data.replyTo) {
                     await axios.get(`http://127.0.0.1:5000/api/v1/posts/${data.data.replyTo}`).then(data => {
+                        console.log(data.data["data"]["doc"])
                         setdataofreply(data.data["data"]["doc"])
                         setisreply(true)
-
                     })
                 }
             }
@@ -81,31 +78,23 @@ export default function Post(data: any) {
     }, []);
 
 
-
-    var check_post2 = false
-    try {
-        console.log("data", dataofreply.image[0].filename)
-        check_post2 = true
-
-    }
-    catch { }
-
-
     const handlelike = (id: number) => {
+        console.log(id)
         axios.put(`http://127.0.0.1:5000/api/v1/posts/${id}/like`);
         const button = document.getElementById(
             id.toString(),
         ) as HTMLInputElement;
 
-
         const icon = button?.querySelector('.bi-like') as HTMLElement;
         const like_c = button.textContent
+        console.log(icon.style.color)
 
 
         if (icon) {
             if (icon.style.color === "black") {
                 icon.style.color = "blue";
             } else {
+
                 icon.style.color = "black";
             }
         }
@@ -115,17 +104,16 @@ export default function Post(data: any) {
     const [islike, setIslike] = useState('black');
 
 
+
     useEffect(() => {
         const fetchData = async () => {
             try {
                 await axios.get(`http://127.0.0.1:5000/api/v1/posts/${data.data._id}/like`).then(data => {
-                    console.log("data")
-
-                    console.log(data.data.data.isLiked)
-                    if (data.data.data.isLiked) {
+                    if (data && data.data.data.isLiked) {
                         setIslike('blue')
                     }
                 })
+
             }
             catch {
             }
@@ -133,9 +121,6 @@ export default function Post(data: any) {
 
         fetchData();
     }, []);
-
-
-
 
     // ------------
 
@@ -171,8 +156,6 @@ export default function Post(data: any) {
 
     };
 
-
-
     const handleSubmit2 = (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
 
@@ -184,6 +167,7 @@ export default function Post(data: any) {
 
             console.log("token", token)
             console.log(`id is ${data.data._id}`)
+
 
             axios.post('http://localhost:5000/api/v1/posts', {
                 content: formDataPost.content,
@@ -209,7 +193,6 @@ export default function Post(data: any) {
 
     }
 
-    // -----
     const navigate = useNavigate();
 
     const handlenav = (id: string) => {
@@ -218,34 +201,25 @@ export default function Post(data: any) {
 
 
     const profileclick = () => {
+        // direct to profile
     }
 
     const postclick = (id: string) => {
         // handlenav(id)
         handlenav(id)
-
     }
-    // if (dataofreply) {
-    //     return (<Card></Card>)
-    // }
 
-    return (<Card maxW='500px' minW="500px" my={4} borderRadius="30">
-        {
-            isreply ? (<ReplyPost data={dataofreply} />) : null
-        }
+    // console.log(data.postedBy["profilePic"].filename)
 
-
-
-        <CardHeader style={{ cursor: 'pointer' }}>
+    return (<Card maxW='500px' minW="500px" borderTopLeftRadius="30" borderTopRightRadius="30">
+        <CardHeader >
             <Flex letterSpacing={4}>
-                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap' style={{ cursor: 'pointer' }} >
-
-                    <Avatar onClick={profileclick} style={{ cursor: 'pointer' }} name='Segun Adebayo' src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`} />
-
+                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
+                    <Avatar style={{ cursor: 'pointer' }} name='Segun Adebayo' src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`} />
                     <Box>
                         <Heading size='sm'></Heading>
 
-                        <Text onClick={profileclick} style={{ cursor: 'pointer' }} >{`${data.data.postedBy["firstName"]} ${data.data.postedBy["lastName"]}`}</Text>
+                        <Text style={{ cursor: 'pointer' }}>{`${data.data.postedBy["firstName"]} ${data.data.postedBy["lastName"]}`}</Text>
                     </Box>
                 </Flex >
                 <Menu>
@@ -262,26 +236,26 @@ export default function Post(data: any) {
                         <MenuItem icon={<EditIcon />}>
                             Edit
                         </MenuItem>
-
                     </MenuList>
                 </Menu>
             </Flex >
         </CardHeader >
-        <CardBody onClick={() => postclick(data.data._id)} style={{ cursor: 'pointer' }} >
+        <CardBody onClick={() => postclick(data.data._id)} style={{ cursor: 'pointer' }}>
             <Text>
                 {data.data.content}
             </Text>
-        </CardBody >
+        </CardBody>
+
         {
-            check_post ? (
-                <Image
-                    objectFit='cover'
-                    src={`http://127.0.0.1:5000/uploads/${data.data.image[0].filename}`}
-                />
-            ) : null
+            check_post ? (<Image
+                objectFit='cover'
+                src={`http://127.0.0.1:5000/uploads/${data.data.image[0].filename}`}
+            />) : null
         }
+
+
         <CardFooter
-            // justify='space-between'
+            justify='space-between'
             flexWrap='wrap'
             sx={{
                 '& > button': {
@@ -289,23 +263,21 @@ export default function Post(data: any) {
                 },
             }}
         >
-            <Tooltip id={`${data.data._id}_likecount`} label={like_count !== "" ? `${like_count} Like` : ""}>
-                <Button id={data.data._id} flex='1' variant='ghost' leftIcon={<BiLike className='bi-like' style={{ color: islike }}
-                />} onClick={() => handlelike(data.data._id)}
-                >
-                    {`Like`}
-                </Button>
-            </Tooltip>
+            <Button id={data.data._id} flex='1' variant='ghost' leftIcon={<BiLike className='bi-like' style={{ color: islike }}
+            />} onClick={() => handlelike(data.data._id)}
+            >
+                {`Like`}
+            </Button>
+            {/* </Tooltip> */}
 
             <Button flex='1' variant='ghost' leftIcon={<BiChat />} onClick={onOpen} >
                 Comment
             </Button>
-
             <Modal isOpen={isOpen} onClose={onClose}>
                 <ModalOverlay />
                 <ModalContent>
                     <ModalHeader alignContent={"center"}>Create post</ModalHeader>
-                    <form id="2" onSubmit={handleSubmit2}>
+                    <form id="1" onSubmit={handleSubmit2}>
 
                         <ModalCloseButton />
                         <ModalBody>
@@ -328,8 +300,6 @@ export default function Post(data: any) {
 
                                     <Center>
                                         <Text m={2}>Add to your reply</Text>
-
-
                                     </Center>
 
                                     <input
@@ -366,5 +336,4 @@ export default function Post(data: any) {
             </Button>
         </CardFooter>
     </Card >);
-
 }
