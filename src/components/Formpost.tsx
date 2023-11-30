@@ -119,16 +119,16 @@ export function Formpost( props:ProfileInfo) {
 
 
     return (<>
-        <Card minH={"120px"}  minW={"500px"}  maxW={"500px"} mb={3} mt={10}>
+        <Card minH={"120px"}   mb={3} mt={10}>
 
 
             <Flex borderRadius={"10px"}>
                 <Center ml={10}>
                         <Avatar name={props.firstName} src={"http://127.0.0.1:5000/uploads/"+props.profilePic}/>
                 </Center>
-                <Spacer/>
+
                 <Center>
-                    <Input placeholder="What's happening?" size={"lg"} minW={"300px"} m={4} onClick={onOpen}
+                    <Input  placeholder="What's happening?" size={"lg"} minW={"400px"} m={4} onClick={onOpen}
 
                            borderRadius={50}></Input>
                     <Modal isOpen={isOpen} onClose={onClose}>
