@@ -11,6 +11,7 @@ import {Chat_page} from "../pages/Chat/Chat_page";
 import {Profile_page_client} from "../pages/Profile/Profile_page_client";
 import NotFound from "../pages/NotFound/NotFound";
 import {PostWithComment} from "../components/PostwithComment";
+import {Explore} from "../components/Explore";
 const Routes = () => {
     const token = useAuth();
 
@@ -61,7 +62,10 @@ const Routes = () => {
             path: "/profile/:id", element: <Profile_page_client/>,
 
 
-        }
+        },
+        {
+        path: "/explore", element: <Explore />,
+    },
 
 
         ],

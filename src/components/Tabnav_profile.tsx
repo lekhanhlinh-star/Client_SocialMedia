@@ -1,4 +1,4 @@
-import {Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
+import {Box, Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
 import Post from "./Post";
 import {useEffect, useState} from "react";
 import axios from "axios";
@@ -15,14 +15,9 @@ export const Tabnav_profile = () => {
                 const response = await axios.get(
                     `http://localhost:5000/api/v1/posts/postOfMe?&limit=5&page=${offset}`
                 );
-                 const responseComment = await axios.get(
-                    `http://localhost:5000/api/v1/posts/replyOfMe?&limit=5&page=${offset}`
-                );
+
                 const data = response.data["data"]["doc"];
-                const comment =   responseComment.data["data"]["doc"];
-                if (comment){
-                    setpostListComment((prevPostListComment) => [...prevPostListComment, comment])
-                }
+
                 if (data) {
                     setPostList((prevPostList) => [...prevPostList, data]);
                 }
@@ -48,7 +43,7 @@ export const Tabnav_profile = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
     return (<>
-        <Tabs isFitted variant='enclosed' size={'2xl'} bg={"white"}>
+        <Tabs isFitted variant='enclosed'   bg={"white"} borderRadius={5}>
             <TabList mb='1em'>
                 <Tab>Post</Tab>
                 <Tab>Comment</Tab>
@@ -56,16 +51,18 @@ export const Tabnav_profile = () => {
 
             </TabList>
             <TabPanels>
-                <TabPanel>
-                     {postList.map((innerArray) =>
+                <TabPanel alignItems={"center"}>
+
+                    <Box alignContent={"center"} alignItems={"center"}>
+       {postList.map((innerArray) =>
                         innerArray.map((post: any) => <Post data={post} />)
                     )}
+                    </Box>
+
 
                 </TabPanel>
                 <TabPanel>
-                      {postListComment.map((innerArray) =>
-                        innerArray.map((post: any) => <Post data={post} />)
-                    )}
+
 
 
                 </TabPanel>

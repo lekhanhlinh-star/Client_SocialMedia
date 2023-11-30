@@ -1,4 +1,5 @@
 import {
+    AspectRatio,
     Avatar,
     Box,
     Button,
@@ -40,15 +41,14 @@ import {useNavigate} from "react-router-dom";
 export default function Post(data: any) {
 
 
-    const { isOpen, onOpen, onClose } = useDisclosure()
+    const {isOpen, onOpen, onClose} = useDisclosure()
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     var check_post = false
     try {
         console.log("data", data.data.image[0].filename)
         check_post = true
-    }
-    catch {
+    } catch {
 
     }
 
@@ -56,7 +56,6 @@ export default function Post(data: any) {
     if (like_count == 0) {
         like_count = ""
     }
-
 
 
     const [dataofreply, setdataofreply] = useState<any>(null);
@@ -72,8 +71,7 @@ export default function Post(data: any) {
 
                     })
                 }
-            }
-            catch {
+            } catch {
             }
         };
 
@@ -81,21 +79,18 @@ export default function Post(data: any) {
     }, []);
 
 
-
     var check_post2 = false
     try {
         console.log("data", dataofreply.image[0].filename)
         check_post2 = true
 
+    } catch {
     }
-    catch { }
 
 
     const handlelike = (id: number) => {
         axios.put(`http://127.0.0.1:5000/api/v1/posts/${id}/like`);
-        const button = document.getElementById(
-            id.toString(),
-        ) as HTMLInputElement;
+        const button = document.getElementById(id.toString(),) as HTMLInputElement;
 
 
         const icon = button?.querySelector('.bi-like') as HTMLElement;
@@ -126,15 +121,12 @@ export default function Post(data: any) {
                         setIslike('blue')
                     }
                 })
-            }
-            catch {
+            } catch {
             }
         };
 
         fetchData();
     }, []);
-
-
 
 
     // ------------
@@ -153,14 +145,14 @@ export default function Post(data: any) {
 
     });
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const { name, value } = event.target;
+        const {name, value} = event.target;
         setFormDataPost((prevFormDataPost) => ({
             ...prevFormDataPost, [name]: value,
         }));
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files && event.target.files[0];
-        let { name, value } = event.target;
+        let {name, value} = event.target;
         name = "image"
 
         console.log("name", name)
@@ -170,7 +162,6 @@ export default function Post(data: any) {
         }));
 
     };
-
 
 
     const handleSubmit2 = (event: React.FormEvent<HTMLFormElement>) => {
@@ -186,9 +177,7 @@ export default function Post(data: any) {
             console.log(`id is ${data.data._id}`)
 
             axios.post('http://localhost:5000/api/v1/posts', {
-                content: formDataPost.content,
-                image: formDataPost.image,
-                replyTo: data.data._id,
+                content: formDataPost.content, image: formDataPost.image, replyTo: data.data._id,
             }, {
                 headers: {
                     'Content-Type': 'multipart/form-data', 'authorization': `Bearer ${token}`,
@@ -218,7 +207,7 @@ export default function Post(data: any) {
 
 
     const profileclick = () => {
-        const _id =data.data.postedBy["_id"]
+        const _id = data.data.postedBy["_id"]
         navigate("/profile/" + _id);
 
     }
@@ -232,57 +221,58 @@ export default function Post(data: any) {
     //     return (<Card></Card>)
     // }
 
-    return (<Card maxW='500px' minW="500px" my={4} borderRadius="30">
-        {
-            isreply ? (<ReplyPost data={dataofreply} />) : null
-        }
+    return (<Card my={4} borderRadius="30">
+        {isreply ? (<ReplyPost data={dataofreply}/>) : null}
 
 
-
-        <CardHeader style={{ cursor: 'pointer' }}>
+        <CardHeader style={{cursor: 'pointer'}}>
             <Flex letterSpacing={4}>
-                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap' style={{ cursor: 'pointer' }} >
+                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap' style={{cursor: 'pointer'}}>
 
-                    <Avatar onClick={profileclick} style={{ cursor: 'pointer' }} name='Segun Adebayo' src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`} />
+                    <Avatar onClick={profileclick} style={{cursor: 'pointer'}} name='Segun Adebayo'
+                            src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`}/>
 
                     <Box>
                         <Heading size='sm'></Heading>
 
-                        <Text onClick={profileclick} style={{ cursor: 'pointer' }} >{`${data.data.postedBy["firstName"]} ${data.data.postedBy["lastName"]}`}</Text>
+                        <Text onClick={profileclick}
+                              style={{cursor: 'pointer'}}>{`${data.data.postedBy["firstName"]} ${data.data.postedBy["lastName"]}`}</Text>
                     </Box>
-                </Flex >
+                </Flex>
                 <Menu>
                     <MenuButton
                         as={IconButton}
                         aria-label='Options'
-                        icon={<BsThreeDotsVertical />}
+                        icon={<BsThreeDotsVertical/>}
                         variant='outline'
                     />
                     <MenuList>
-                        <MenuItem icon={<DeleteIcon />}>
+                        <MenuItem icon={<DeleteIcon/>}>
                             Delete
                         </MenuItem>
-                        <MenuItem icon={<EditIcon />}>
+                        <MenuItem icon={<EditIcon/>}>
                             Edit
                         </MenuItem>
 
                     </MenuList>
                 </Menu>
-            </Flex >
-        </CardHeader >
-        <CardBody onClick={() => postclick(data.data._id)} style={{ cursor: 'pointer' }} >
+            </Flex>
+        </CardHeader>
+        <CardBody onClick={() => postclick(data.data._id)} style={{cursor: 'pointer'}}>
             <Text>
                 {data.data.content}
             </Text>
-        </CardBody >
-        {
-            check_post ? (
+        </CardBody>
+        {check_post ? (
+
+            <AspectRatio maxH={"600px"} >
                 <Image
-                    objectFit='cover'
-                    src={`http://127.0.0.1:5000/uploads/${data.data.image[0].filename}`}
+                       objectFit='cover'
+                       src={`http://127.0.0.1:5000/uploads/${data.data.image[0].filename}`}
                 />
-            ) : null
-        }
+            </AspectRatio>
+
+        ) : null}
         <CardFooter
             // justify='space-between'
             flexWrap='wrap'
@@ -293,37 +283,39 @@ export default function Post(data: any) {
             }}
         >
             <Tooltip id={`${data.data._id}_likecount`} label={like_count !== "" ? `${like_count} Like` : ""}>
-                <Button id={data.data._id} flex='1' variant='ghost' leftIcon={<BiLike className='bi-like' style={{ color: islike }}
-                />} onClick={() => handlelike(data.data._id)}
+                <Button id={data.data._id} flex='1' variant='ghost'
+                        leftIcon={<BiLike className='bi-like' style={{color: islike}}
+                        />} onClick={() => handlelike(data.data._id)}
                 >
                     {`Like`}
                 </Button>
             </Tooltip>
 
-            <Button flex='1' variant='ghost' leftIcon={<BiChat />} onClick={onOpen} >
+            <Button flex='1' variant='ghost' leftIcon={<BiChat/>} onClick={onOpen}>
                 Comment
             </Button>
 
             <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay />
+                <ModalOverlay/>
                 <ModalContent>
                     <ModalHeader alignContent={"center"}>Create post</ModalHeader>
                     <form id="2" onSubmit={handleSubmit2}>
 
-                        <ModalCloseButton />
+                        <ModalCloseButton/>
                         <ModalBody>
-                            <Avatar name='Segun Adebayo' src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`} />
+                            <Avatar name='Segun Adebayo'
+                                    src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`}/>
 
                             <Input variant='flushed' placeholder="Enter your reply"
 
-                                name="content"
-                                value={formDataPost.content}
-                                onChange={handleInputChange}
+                                   name="content"
+                                   value={formDataPost.content}
+                                   onChange={handleInputChange}
 
                             />
                             {previewImage &&
 
-                                <Image src={previewImage} alt="Selected Image" />}
+                                <Image src={previewImage} alt="Selected Image"/>}
 
                             <Card mt={2}>
 
@@ -338,10 +330,10 @@ export default function Post(data: any) {
                                     <input
                                         type="file"
                                         ref={fileInputRef}
-                                        style={{ display: 'none' }}
+                                        style={{display: 'none'}}
                                         onChange={handleFileChange}
                                     />
-                                    <Button leftIcon={<FcPanorama />} onClick={handleClickSelectFile}>Photo/video
+                                    <Button leftIcon={<FcPanorama/>} onClick={handleClickSelectFile}>Photo/video
 
                                     </Button>
 
@@ -355,7 +347,7 @@ export default function Post(data: any) {
                         <ModalFooter>
 
                             <Button colorScheme='blue' mr={3} type="submit"
-                                w={"full"}>
+                                    w={"full"}>
                                 Post
                             </Button>
 
@@ -364,10 +356,10 @@ export default function Post(data: any) {
 
                 </ModalContent>
             </Modal>
-            <Button flex='1' variant='ghost' leftIcon={<BiShare />}>
+            <Button flex='1' variant='ghost' leftIcon={<BiShare/>}>
                 Share
             </Button>
         </CardFooter>
-    </Card >);
+    </Card>);
 
 }

@@ -211,7 +211,7 @@ export function ReplyPost(data: any) {
 
     // console.log(data.postedBy["profilePic"].filename)
 
-    return (<Card maxW='500px' minW="500px" borderTopLeftRadius="30" borderTopRightRadius="30">
+    return (<Card  borderTopLeftRadius="30" borderTopRightRadius="20">
         <CardHeader >
             <Flex letterSpacing={4}>
                 <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap'>
