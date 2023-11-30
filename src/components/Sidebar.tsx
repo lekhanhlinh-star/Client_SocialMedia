@@ -30,14 +30,14 @@ import { ReactText } from 'react'
 interface LinkItemProps {
   name: string
   icon: IconType
-    link:string
+  link: string
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome ,link:"/home" },
-  { name: 'Trending', icon: FiTrendingUp,link:"/home"  },
-  { name: 'Explore', icon: FiCompass,link:"/home"  },
-  { name: 'Favourites', icon: FiStar,link:"/home"  },
-  { name: 'Logout', icon: HiOutlineLogout,link:"/home"  },
+  { name: 'Home', icon: FiHome, link: "/home" },
+  { name: 'Trending', icon: FiTrendingUp, link: "/home" },
+  { name: 'Explore', icon: FiCompass, link: "/home" },
+  { name: 'Favourites', icon: FiStar, link: "/home" },
+  { name: 'Logout', icon: HiOutlineLogout, link: "/home" },
 ]
 
 export default function Sidebar() {
@@ -79,26 +79,26 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       h="full"
       {...rest}>
       <Box
-            as="a"
-       href={"/profile"}
-            style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}>
+        as="a"
+        href={"/profile"}
+        style={{ textDecoration: 'none' }}
+        _focus={{ boxShadow: 'none' }}>
 
         <Flex
 
-        align="center"
-        p="4"
-        mx="4"
-        mt={3}
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          bg: "rgb(215,36,141)",
-          color: 'white',
-            bgGradient:"linear(to-l, #7928CA, #FF0080)"
-        }}><Avatar ></Avatar>
-          <Text ml={2}  fontSize='xs'  noOfLines={1}  as='b'>
+          align="center"
+          p="4"
+          mx="4"
+          mt={3}
+          borderRadius="lg"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            bg: "rgb(215,36,141)",
+            color: 'white',
+            bgGradient: "linear(to-l, #7928CA, #FF0080)"
+          }}><Avatar ></Avatar>
+          <Text ml={2} fontSize='xs' noOfLines={1} as='b'>
             Lee Khanh Linh
           </Text>
         </Flex>
@@ -117,10 +117,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 interface NavItemProps extends FlexProps {
   icon: IconType
-    link: string
+  link: string
   children: ReactText
 }
-const NavItem = ({ icon,link,children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, link, children, ...rest }: NavItemProps) => {
   return (
     <Box
       as="a"
@@ -138,7 +138,7 @@ const NavItem = ({ icon,link,children, ...rest }: NavItemProps) => {
         _hover={{
           bg: "rgb(215,36,141)",
           color: 'white',
-            bgGradient:"linear(to-l, #7928CA, #FF0080)"
+          bgGradient: "linear(to-l, #7928CA, #FF0080)"
         }}
         {...rest}>
         {icon && (
