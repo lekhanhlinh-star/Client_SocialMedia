@@ -58,6 +58,7 @@ export const Profile_page_client = () => {
 
 
         {loadTrue ? (<Box>
+            <Header firstName={""} lastName={""} profilePic={""}/>
                 <Flex bg={"white"} height={5}>
                     <Sidebar/>
                 </Flex>

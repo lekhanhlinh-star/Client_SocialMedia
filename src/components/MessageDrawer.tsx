@@ -21,20 +21,92 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import React from "react";
-import {ChatIcon} from "@chakra-ui/icons";
+import { ChatIcon } from "@chakra-ui/icons";
 
 export default function DrawerExample() {
-    const {isOpen, onOpen, onClose} = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const btnRef = React.useRef(null);
+    const obj = [{
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }, {
+        name: "Toan ngu",
+        avt: "http://localhost:5000/uploads/1700827287066.jpeg",
+        last: "last 1",
+        id: "65544fb50870434af07d0f66"
+
+    }]
+
+
 
     return (<>
 
         <Tooltip hasArrow label='Message' bg='gray.300' color='black'>
-            <IconButton ref={btnRef} icon={<ChatIcon/>} mx={2} isRound={true} colorScheme="gray" onClick={onOpen}
-                    aria-label="Done"
-                    size={"lg"}>
-            <BreadcrumbLink href="/message"></BreadcrumbLink>
-        </IconButton>
+            <IconButton ref={btnRef} icon={<ChatIcon />} mx={2} isRound={true} colorScheme="gray" onClick={onOpen}
+                aria-label="Done"
+                size={"lg"}>
+                <BreadcrumbLink href="/message"></BreadcrumbLink>
+            </IconButton>
 
         </Tooltip>
 
@@ -44,67 +116,46 @@ export default function DrawerExample() {
             onClose={onClose}
             finalFocusRef={btnRef}
         >
-            <DrawerOverlay/>
+            <DrawerOverlay />
             <DrawerContent>
-                <DrawerCloseButton/>
+                <DrawerCloseButton />
                 <DrawerHeader>Message</DrawerHeader>
 
                 <DrawerBody>
-                    <Input placeholder="Type here..."/>
+                    <Input placeholder="🔍 Search" />
 
+                    {obj.map((x) =>
+                        <Grid mt={3} mb={1} pb={16}
+                            h="80px"
+                            templateRows="repeat(1, 1fr)"
+                            templateColumns="repeat(5, 1fr)"
+                            gap={3} _hover={{
+                                bgGradient: "linear(to-l, #e1e1e1, #8b8b8b)"
+                            }}
+                            cursor={"pointer"}
+                        >
+                            <GridItem rowSpan={2} colSpan={1} >
+                                <Avatar src={x.avt} mt={3} ml={5}>
+                                    <AvatarBadge boxSize="1.25em" bg='green.500' />
+                                </Avatar></GridItem>
 
-                    <Grid my={7}
-                        h="40px"
-                        templateRows="repeat(2, 1fr)"
-                        templateColumns="repeat(5, 1fr)"
-                        gap={4}
-                    >
-                        <GridItem rowSpan={2} colSpan={1} > <Avatar my={2} src={"http://localhost:5000/uploads/1700728918737.jpg"}>
-                            <AvatarBadge boxSize="1.25em" bg='green.500'  />
-                        </Avatar></GridItem>
-                        <GridItem colSpan={4} > <Text as={"b"} mt={2} ml={2}> User name
+                            <GridItem colSpan={2} h='4' marginTop={3}>
+                                <Text as={"b"} pl={2}> {x.name}
+                                </Text>
+                            </GridItem>
 
+                            <GridItem colSpan={3} alignItems={"top"}>
+                                <Text as={"i"} pl={2}>{x.last}
+                                </Text>
+                            </GridItem>
 
-                        </Text>
-                        </GridItem>
-                        <GridItem colSpan={4}> <Text as={"i"} mt={2} ml={2}> least messages
-
-
-                        </Text>
-                        </GridItem>
-                    </Grid>
-                    <Grid my={7}
-                        h="40px"
-                        templateRows="repeat(2, 1fr)"
-                        templateColumns="repeat(5, 1fr)"
-                        gap={4}
-                    >
-                        <GridItem rowSpan={2} colSpan={1} > <Avatar my={2} src={"http://localhost:5000/uploads/1700728918737.jpg"}>
-                            <AvatarBadge boxSize="1.25em" bg='green.500'  />
-                        </Avatar></GridItem>
-                        <GridItem colSpan={4} > <Text as={"b"} mt={2} ml={2}> User name
-
-
-                        </Text>
-                        </GridItem>
-                        <GridItem colSpan={4}> <Text as={"i"} mt={2} ml={2}> least messages
-
-
-                        </Text>
-                        </GridItem>
-                    </Grid>
-
+                        </Grid>)}
 
 
                 </DrawerBody>
 
-                <DrawerFooter>
-                    <Button variant="outline" mr={3} onClick={onClose}>
-                        Cancel
-                    </Button>
-                    <Button colorScheme="blue">Save</Button>
-                </DrawerFooter>
+
             </DrawerContent>
-        </Drawer>
+        </Drawer >
     </>);
 }

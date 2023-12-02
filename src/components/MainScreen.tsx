@@ -1,5 +1,5 @@
 import Sidebar from "./Sidebar";
-import { Container, Flex } from "@chakra-ui/react";
+import {Container, Flex, useColorModeValue} from "@chakra-ui/react";
 import axios from 'axios';
 import { useEffect, useRef, useState } from "react";
 import Post from "./Post";
@@ -56,7 +56,8 @@ export function MainScreen(props:ProfileInfo) {
 
     return (
         <>
-            <Flex letterSpacing={2}  bg={"rgb(240,242,245)"}>
+            <Flex letterSpacing={2}   bgGradient={useColorModeValue("linear(to-l,white,white)", "linear(to-l,#05020b,#34073d)")}
+            overflow={"hidden"}>
                 <Sidebar />
 
                 <Container alignContent={"center"}  >

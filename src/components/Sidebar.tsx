@@ -43,7 +43,7 @@ const LinkItems: Array<LinkItemProps> = [
 export default function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
   return (
-    <Box minH="100vh" bg={useColorModeValue("white", 'gray.900')}>
+    <Box minH="100vh" bg={useColorModeValue("white", 'gray.900')} borderRadius={10}>
       <SidebarContent onClose={() => onClose} display={{ base: 'none', md: 'block' }} />
       <Drawer
         isOpen={isOpen}
@@ -57,9 +57,9 @@ export default function Sidebar() {
         </DrawerContent>
       </Drawer>
       {/* mobilenav */}
-      <MobileNav display={{ base: 'flex', md: 'none' }} onOpen={onOpen} />
-      <Box ml={{ base: 0, md: 60 }} p="4">
-        {/* Content */}
+
+      <Box ml={{ base: 0, md: 60 }}>
+
       </Box>
     </Box>
   )
@@ -94,9 +94,8 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
         role="group"
         cursor="pointer"
         _hover={{
-          bg: "rgb(215,36,141)",
           color: 'white',
-            bgGradient:"linear(to-l, #7928CA, #FF0080)"
+            bgGradient:   useColorModeValue("linear(to-l,#05020b,#34073d)","linear(to-l, #7928CA, #FF0080)" )
         }}><Avatar ></Avatar>
           <Text ml={2}  fontSize='xs'  noOfLines={1}  as='b'>
             Lee Khanh Linh
@@ -138,7 +137,7 @@ const NavItem = ({ icon,link,children, ...rest }: NavItemProps) => {
         _hover={{
           bg: "rgb(215,36,141)",
           color: 'white',
-            bgGradient:"linear(to-l, #7928CA, #FF0080)"
+  bgGradient:   useColorModeValue("linear(to-l,#05020b,#34073d)","linear(to-l, #7928CA, #FF0080)" )
         }}
         {...rest}>
         {icon && (

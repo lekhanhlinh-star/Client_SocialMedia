@@ -13,7 +13,7 @@ import {
     MenuButton,
     MenuItem,
     MenuList,
-    Spacer, Tooltip,
+    Spacer, Tooltip, useColorMode, useColorModeValue,
     WrapItem,
 } from "@chakra-ui/react";
 import {
@@ -44,11 +44,12 @@ function Header(props:ProfileInfo ) {
 
 
     const [searchString, setSearchString] = useState("")
+     const { colorMode, toggleColorMode } = useColorMode()
 
     return (
 
         <Box as={"nav"} py={3}   position={"sticky"} top={0}
-             bgGradient={"linear(to-l, #7928CA, #FF0080)"}
+             bgGradient={  useColorModeValue(  "linear(to-l,#05020b,#34073d)","linear(to-l, #7928CA, #FF0080)")}
              zIndex={999}>
             <Flex justify="space-between" align="center" maxW="1400px" mx="auto" color={"white"}>
 
@@ -95,7 +96,7 @@ function Header(props:ProfileInfo ) {
                 <WrapItem paddingX={3}>
                     <Avatar  as={"a"} href='/profile' name={props.firstName} src={"http://127.0.0.1:5000/uploads/"+props.profilePic}/>
                 </WrapItem>
-                <IconButton aria-label={"setting"} icon={<SettingsIcon/>} colorScheme='gray.550'  isRound={true} >
+                <IconButton aria-label={"setting"} icon={<SettingsIcon/>} colorScheme='gray.550'  isRound={true}   onClick={toggleColorMode} >
                      <BreadcrumbLink href='/profile'></BreadcrumbLink>
 
                 </IconButton>

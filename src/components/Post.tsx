@@ -221,7 +221,7 @@ export default function Post(data: any) {
     //     return (<Card></Card>)
     // }
 
-    return (<Card my={4} borderRadius="30">
+    return (<Card my={4} borderRadius="30" bg={"gray.9000"}>
         {isreply ? (<ReplyPost data={dataofreply}/>) : null}
 
 
@@ -230,7 +230,7 @@ export default function Post(data: any) {
                 <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap' style={{cursor: 'pointer'}}>
 
                     <Avatar onClick={profileclick} style={{cursor: 'pointer'}} name='Segun Adebayo'
-                            src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`}/>
+                            src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"]?.filename}`}/>
 
                     <Box>
                         <Heading size='sm'></Heading>

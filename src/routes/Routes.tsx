@@ -12,6 +12,7 @@ import {Profile_page_client} from "../pages/Profile/Profile_page_client";
 import NotFound from "../pages/NotFound/NotFound";
 import {PostWithComment} from "../components/PostwithComment";
 import {Explore} from "../components/Explore";
+import {Message} from "../components/Message";
 const Routes = () => {
     const token = useAuth();
 
@@ -65,6 +66,11 @@ const Routes = () => {
         },
         {
         path: "/explore", element: <Explore />,
+
+    },
+            {
+        path: "/message", element: <Message />,
+
     },
 
 
