@@ -124,7 +124,7 @@ export function Message() {
 
                             }}
                                 cursor={"pointer"}>
-                                <Avatar src={x.avt} mt={3} ml={5}>
+                                <Avatar src={""} mt={3} ml={5}>
                                     <AvatarBadge boxSize="1.5em" bg='green.500' />
                                 </Avatar>
                                 <Flex direction="column" color={"black"}>
@@ -189,6 +189,8 @@ export function Message() {
                             w="fit-content"
                             px={7}
                             py={2}
+                            left={"0"}
+
                             fontSize={15}
                         >
                             {x.content}

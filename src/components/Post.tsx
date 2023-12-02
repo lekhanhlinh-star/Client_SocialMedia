@@ -1,4 +1,10 @@
 import {
+    AlertDialog,
+    AlertDialogContent,
+    AlertDialogHeader,
+    AlertDialogFooter,
+    AlertDialogOverlay,
+    AlertDialogBody,
     AspectRatio,
     Avatar,
     Box,
@@ -26,22 +32,27 @@ import {
     ModalOverlay,
     Text,
     Tooltip,
-    useDisclosure
+    useDisclosure,
+    useToast
 } from "@chakra-ui/react";
-import {ReplyPost} from "./ReplyPost";
-import {BsThreeDotsVertical} from "react-icons/bs";
-import {DeleteIcon, EditIcon} from '@chakra-ui/icons'
-import {BiChat, BiLike, BiShare} from "react-icons/bi";
+import { ReplyPost } from "./ReplyPost";
+import { BsThreeDotsVertical } from "react-icons/bs";
+import { DeleteIcon, EditIcon } from '@chakra-ui/icons'
+import { BiChat, BiLike, BiShare } from "react-icons/bi";
 import axios from "axios";
-import React, {useEffect, useRef, useState} from "react";
-import {FcPanorama} from "react-icons/fc";
-import {useNavigate} from "react-router-dom";
-
+import React, { useEffect, useRef, useState } from "react";
+import { FcPanorama } from "react-icons/fc";
+import { useNavigate } from "react-router-dom";
 
 export default function Post(data: any) {
 
+    // const cancelRef = React.useRef()
+    const cancelRef = useRef<HTMLButtonElement>(null);
 
-    const {isOpen, onOpen, onClose} = useDisclosure()
+    const { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
+    const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
+
+    // const { isOpen, onOpen, onClose } = useDisclosure()
     const [previewImage, setPreviewImage] = useState<string | null>(null);
 
     var check_post = false
@@ -145,14 +156,14 @@ export default function Post(data: any) {
 
     });
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setFormDataPost((prevFormDataPost) => ({
             ...prevFormDataPost, [name]: value,
         }));
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files && event.target.files[0];
-        let {name, value} = event.target;
+        let { name, value } = event.target;
         name = "image"
 
         console.log("name", name)
@@ -198,6 +209,31 @@ export default function Post(data: any) {
 
     }
 
+    const toast = useToast();
+    // -----
+    const Deleteclick = (id: string) => {
+        console.log(`id is ${data.data._id}`)
+        const token = localStorage.getItem("token");
+
+        console.log("token", token);
+        axios.delete("http://localhost:5000/api/v1/posts/" + id, {
+            headers: {
+                "Content-Type": "multipart/form-data", "authorization": `Bearer ${token}`,
+            },
+        }).then(data => {
+            console.log(data)
+            toast({
+                title: "Delete post successful", status: "success", duration: 9000, isClosable: true, position: "top",
+            });
+            window.location.reload();
+        }).catch(err => {
+            console.log(err)
+            toast({
+                title: err.response.data.message, status: "error", duration: 9000, isClosable: true, position: "top",
+            });
+        })
+    }
+
     // -----
     const navigate = useNavigate();
 
@@ -217,40 +253,64 @@ export default function Post(data: any) {
         handlenav(id)
 
     }
-    // if (dataofreply) {
-    //     return (<Card></Card>)
-    // }
 
-    return (<Card my={4} borderRadius="30" bg={"gray.9000"}>
-        {isreply ? (<ReplyPost data={dataofreply}/>) : null}
+    return (<Card my={4} borderRadius="30">
+        {isreply ? (<ReplyPost data={dataofreply} />) : null}
 
 
-        <CardHeader style={{cursor: 'pointer'}}>
+        <CardHeader style={{ cursor: 'pointer' }}>
             <Flex letterSpacing={4}>
-                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap' style={{cursor: 'pointer'}}>
+                <Flex flex='1' gap='4' alignItems='center' flexWrap='wrap' style={{ cursor: 'pointer' }}>
 
-                    <Avatar onClick={profileclick} style={{cursor: 'pointer'}} name='Segun Adebayo'
-                            src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"]?.filename}`}/>
+                    <Avatar onClick={profileclick} style={{ cursor: 'pointer' }} name='Segun Adebayo'
+                        src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`} />
 
                     <Box>
                         <Heading size='sm'></Heading>
 
                         <Text onClick={profileclick}
-                              style={{cursor: 'pointer'}}>{`${data.data.postedBy["firstName"]} ${data.data.postedBy["lastName"]}`}</Text>
+                            style={{ cursor: 'pointer' }}>{`${data.data.postedBy["firstName"]} ${data.data.postedBy["lastName"]}`}</Text>
                     </Box>
                 </Flex>
                 <Menu>
                     <MenuButton
                         as={IconButton}
                         aria-label='Options'
-                        icon={<BsThreeDotsVertical/>}
+                        icon={<BsThreeDotsVertical />}
                         variant='outline'
                     />
                     <MenuList>
-                        <MenuItem icon={<DeleteIcon/>}>
+                        <MenuItem icon={<DeleteIcon />} onClick={onOpen1}>
                             Delete
                         </MenuItem>
-                        <MenuItem icon={<EditIcon/>}>
+                        <AlertDialog
+                            isOpen={isOpen1}
+                            leastDestructiveRef={cancelRef}
+                            onClose={onClose1}>
+
+                            <AlertDialogOverlay>
+                                <AlertDialogContent>
+                                    <AlertDialogHeader fontSize='lg' fontWeight='bold'>
+                                        Delete Customer
+                                    </AlertDialogHeader>
+                                    <AlertDialogBody>
+                                        Are you sure? You can't undo this action afterwards.
+                                    </AlertDialogBody>
+                                    <AlertDialogFooter>
+                                        <Button ref={cancelRef} onClick={onClose1}>
+                                            Cancel
+                                        </Button>
+                                        <Button colorScheme="red" onClick={() => { Deleteclick(data.data._id); onClose1(); }} ml={3}>
+                                            Delete
+                                        </Button>
+                                    </AlertDialogFooter>
+                                </AlertDialogContent>
+                            </AlertDialogOverlay>
+                        </AlertDialog>
+                        <div id="alert-container"></div>
+
+
+                        <MenuItem icon={<EditIcon />} >
                             Edit
                         </MenuItem>
 
@@ -258,7 +318,7 @@ export default function Post(data: any) {
                 </Menu>
             </Flex>
         </CardHeader>
-        <CardBody onClick={() => postclick(data.data._id)} style={{cursor: 'pointer'}}>
+        <CardBody onClick={() => postclick(data.data._id)} style={{ cursor: 'pointer' }}>
             <Text>
                 {data.data.content}
             </Text>
@@ -267,8 +327,8 @@ export default function Post(data: any) {
 
             <AspectRatio maxH={"600px"} >
                 <Image
-                       objectFit='cover'
-                       src={`http://127.0.0.1:5000/uploads/${data.data.image[0].filename}`}
+                    objectFit='cover'
+                    src={`http://127.0.0.1:5000/uploads/${data.data.image[0].filename}`}
                 />
             </AspectRatio>
 
@@ -284,38 +344,38 @@ export default function Post(data: any) {
         >
             <Tooltip id={`${data.data._id}_likecount`} label={like_count !== "" ? `${like_count} Like` : ""}>
                 <Button id={data.data._id} flex='1' variant='ghost'
-                        leftIcon={<BiLike className='bi-like' style={{color: islike}}
-                        />} onClick={() => handlelike(data.data._id)}
+                    leftIcon={<BiLike className='bi-like' style={{ color: islike }}
+                    />} onClick={() => handlelike(data.data._id)}
                 >
                     {`Like`}
                 </Button>
             </Tooltip>
 
-            <Button flex='1' variant='ghost' leftIcon={<BiChat/>} onClick={onOpen}>
+            <Button flex='1' variant='ghost' leftIcon={<BiChat />} onClick={onOpen2}>
                 Comment
             </Button>
 
-            <Modal isOpen={isOpen} onClose={onClose}>
-                <ModalOverlay/>
+            <Modal isOpen={isOpen2} onClose={onClose2}>
+                <ModalOverlay />
                 <ModalContent>
                     <ModalHeader alignContent={"center"}>Create post</ModalHeader>
                     <form id="2" onSubmit={handleSubmit2}>
 
-                        <ModalCloseButton/>
+                        <ModalCloseButton />
                         <ModalBody>
                             <Avatar name='Segun Adebayo'
-                                    src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`}/>
+                                src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`} />
 
                             <Input variant='flushed' placeholder="Enter your reply"
 
-                                   name="content"
-                                   value={formDataPost.content}
-                                   onChange={handleInputChange}
+                                name="content"
+                                value={formDataPost.content}
+                                onChange={handleInputChange}
 
                             />
                             {previewImage &&
 
-                                <Image src={previewImage} alt="Selected Image"/>}
+                                <Image src={previewImage} alt="Selected Image" />}
 
                             <Card mt={2}>
 
@@ -330,10 +390,10 @@ export default function Post(data: any) {
                                     <input
                                         type="file"
                                         ref={fileInputRef}
-                                        style={{display: 'none'}}
+                                        style={{ display: 'none' }}
                                         onChange={handleFileChange}
                                     />
-                                    <Button leftIcon={<FcPanorama/>} onClick={handleClickSelectFile}>Photo/video
+                                    <Button leftIcon={<FcPanorama />} onClick={handleClickSelectFile}>Photo/video
 
                                     </Button>
 
@@ -347,7 +407,7 @@ export default function Post(data: any) {
                         <ModalFooter>
 
                             <Button colorScheme='blue' mr={3} type="submit"
-                                    w={"full"}>
+                                w={"full"}>
                                 Post
                             </Button>
 
@@ -356,10 +416,13 @@ export default function Post(data: any) {
 
                 </ModalContent>
             </Modal>
-            <Button flex='1' variant='ghost' leftIcon={<BiShare/>}>
+            <Button flex='1' variant='ghost' leftIcon={<BiShare />}>
                 Share
             </Button>
         </CardFooter>
     </Card>);
 
 }
+
+
+
