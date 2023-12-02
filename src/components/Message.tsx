@@ -1,5 +1,6 @@
-import { Box, Button, Center, Container, Flex, Grid, Text, GridItem, Square, Tab, TabList, TabPanel, TabPanels, Tabs, Input, DrawerBody, Avatar, AvatarBadge, Spacer } from "@chakra-ui/react";
+import { Box, Button, Center, Container, Flex, Grid, Text, GridItem, Square, Tab, TabList, TabPanel, TabPanels, Tabs, Input, DrawerBody, Avatar, AvatarBadge, Spacer, IconButton } from "@chakra-ui/react";
 import { useState } from "react";
+import { BiSend } from "react-icons/bi";
 
 
 export function Message() {
@@ -81,10 +82,6 @@ export function Message() {
         content: "Dù xe gặp sự cố gì, hãy cố gắng đưa xe nằm trọn vẹn trong làn dừng khẩn cấp, không lấn ra làn xe chạy. Nếu xe hết xăng giữa đường hay vì một lý do nào đó động cơ không thể khởi động thì thậm chí bạn phải đẩy xe vào lề đường. Vì khi một phần thân xe vẫn nằm trên làn xe chạy thì rất khó cho các phương tiện khác điều tiết tốc độ cũng như chuyển làn.",
     }, {
         content: "Dù xe gặp sự cố gì, hãy cố gắng đưa xe nằm trọn vẹn trong làn dừng khẩn cấp, không lấn ra làn xe chạy. Nếu xe hết xăng giữa đường hay vì một lý do nào đó động cơ không thể khởi động thì thậm chí bạn phải đẩy xe vào lề đường. Vì khi một phần thân xe vẫn nằm trên làn xe chạy thì rất khó cho các phương tiện khác điều tiết tốc độ cũng như chuyển làn.",
-    }, {
-        content: "Dù xe gặp sự cố gì, hãy cố gắng đưa xe nằm trọn vẹn trong làn dừng khẩn cấp, không lấn ra làn xe chạy. Nếu xe hết xăng giữa đường hay vì một lý do nào đó động cơ không thể khởi động thì thậm chí bạn phải đẩy xe vào lề đường. Vì khi một phần thân xe vẫn nằm trên làn xe chạy thì rất khó cho các phương tiện khác điều tiết tốc độ cũng như chuyển làn.",
-    }, {
-        content: "Dù xe gặp sự cố gì, hãy cố gắng đưa xe nằm trọn vẹn trong làn dừng khẩn cấp, không lấn ra làn xe chạy. Nếu xe hết xăng giữa đường hay vì một lý do nào đó động cơ không thể khởi động thì thậm chí bạn phải đẩy xe vào lề đường. Vì khi một phần thân xe vẫn nằm trên làn xe chạy thì rất khó cho các phương tiện khác điều tiết tốc độ cũng như chuyển làn.",
     }]
 
     return (
@@ -111,7 +108,7 @@ export function Message() {
                         bg: `gray.100`,
                     },
                 }}>
-                <Flex direction="column">
+                <Flex direction="column" >
                     <Flex >
                         <Text color={"black"} as={"b"} ml={5} mt={3}>Chat</Text>
                         <Button mt={1} backgroundColor={"white"} ml={"auto"} marginRight={3}>✍🏻</Button>
@@ -142,6 +139,8 @@ export function Message() {
 
                 </Flex>
             </Box>
+
+
             <Box flex='1' border="1px" borderColor="#b9c9c9" color={"black"} overflowY="auto"
                 __css={{
                     '&::-webkit-scrollbar': {
@@ -155,15 +154,64 @@ export function Message() {
                         bg: `gray.100`,
                     },
                 }} >
-                <Flex direction={"column"}>
-                    {mess.map((x) =>
-                        <Box textAlign={"start"} mx={2} maxW={800} my={1} borderRadius='30' alignContent={"right"} bg='tomato' w={"fit-content"} px={7} py={2} fontSize={15}>{x.content}</Box>
-                    )}
-                </Flex>
-                <Flex direction={"column"} >
-                    {mess.map((x) =>
-                        <Box textAlign={"start"} mx={2} maxW={800} my={1} borderRadius='30' ml={"auto"} bg='tomato' w={"fit-content"} px={7} py={2} fontSize={15}>{x.content}</Box>
-                    )}
+                <Flex direction="column" alignItems="flex-start" justifyContent="flex-end"  >
+                    <Flex position="absolute" bottom={0} backgroundColor="white" width="-webkit-fill-available" mt={20} >
+                        <Button backgroundColor="white" color={"gray"} minW={5} display="flex" px={5} borderRadius={50}>➕</Button>
+                        <Button backgroundColor="white" color={"gray"} minW={5} display="flex" px={5} borderRadius={50}>➕</Button>
+                        <Button backgroundColor="white" color={"gray"} minW={5} display="flex" px={5} borderRadius={50}>➕</Button>
+                        <Button backgroundColor="white" color={"gray"} minW={5} display="flex" px={5} borderRadius={50}>➕</Button>
+
+                        <Input backgroundColor="white" mr={3} border="1px" borderColor="#b9c9c9" textColor={"gray"} color={"gray"} width="100%" display="flex" placeholder="Enter your reply" borderRadius={50}  ></Input>
+
+                        <Button backgroundColor="white" color={"gray"} minW={5} display="flex" px={5} borderRadius={50}>😋</Button>
+                        {/* <Button backgroundColor="white" color={"gray"} minW={5} display="flex" px={5} borderRadius={50}></Button> */}
+                        <IconButton
+                            variant='outline'
+                            colorScheme='teal'
+                            aria-label='Call Sage'
+                            fontSize='20px'
+                            px={3}
+                            mr={1}
+                            icon={<BiSend />}
+                        />
+
+                    </Flex>
+                    {mess.map((x) => (
+                        <Box
+                            bottom={0}
+                            textAlign="start"
+                            mx={2}
+                            maxW={800}
+                            my={1}
+                            borderRadius="30"
+                            ml="auto"
+                            bg="tomato"
+                            w="fit-content"
+                            px={7}
+                            py={2}
+                            fontSize={15}
+                        >
+                            {x.content}
+                        </Box>
+                    ))}
+                    {mess.reverse().map((x) => (
+                        <Box
+                            bottom={0}
+                            textAlign="start"
+                            mx={2}
+                            maxW={800}
+                            my={1}
+                            borderRadius="30"
+                            ml="auto"
+                            bg="tomato"
+                            w="fit-content"
+                            px={7}
+                            py={2}
+                            fontSize={15}
+                        >
+                            {x.content}
+                        </Box>
+                    ))}
                 </Flex>
             </Box>
         </Flex >
