@@ -22,9 +22,14 @@ import React, { useState } from "react";
 import axios from "axios";
 import User from "./User";
 
+import Post from "./Post";
+
+
 export function Explore() {
     const toast = useToast()
-    const [input_search, setInput_search] = useState<string>("")
+    const [use_list, setUseList] = useState([] as any[])
+    const [postList, setPostList] = useState([] as any[]);
+    const [input_search, setInput_search] = useState("");
     const [selectedValue, setSelectedValue] = useState('users');
 
     const obj = [{
@@ -47,12 +52,29 @@ export function Explore() {
         }
 
         await axios.get(`http://127.0.0.1:5000/api/v1/${selectedValue}?search${option}=${input_search}`)
-            .then(res => {
-                console.log(res)
+            .then(response => {
+                console.log(response)
+                if (selectedValue === "users") {
+                    const data = response.data["data"]["doc"];
+                    console.log(data)
+                    if (data) {
+
+
+                        setUseList([data]);
+                    }
+                }
+                else {
+                    const data = response.data["data"]["doc"];
+
+                    setPostList([data]);
+                }
+
             }).
             catch(e => {
                 console.log(e)
             })
+
+        // setUseList([])
 
 
     }
@@ -120,7 +142,20 @@ export function Explore() {
 
                 </Card>
                 <Container mt={10}>
+
+                    {
+                        use_list.map((innerArray) =>
+                            innerArray.map((user: any) => <User id={user._id} lastName={user.lastName} firstName={user.firstName} profilePic={user.profilePic?.filename} ></User>)
+                        )}
+                    {postList.map((innerArray) =>
+                        innerArray.map((post: any) => <Post data={post} />)
+                    )}
+
+                    {/* <User />
                     <User />
+                    <User />
+                    <User />
+                    <User /> */}
                 </Container>
 
             </Container>

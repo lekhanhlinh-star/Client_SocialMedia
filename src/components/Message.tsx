@@ -184,12 +184,12 @@ export function Message() {
                             maxW={800}
                             my={1}
                             borderRadius="30"
-                            ml="auto"
+                            mr="auto"
                             bg="tomato"
                             w="fit-content"
                             px={7}
                             py={2}
-                            left={"0"}
+
 
                             fontSize={15}
                         >

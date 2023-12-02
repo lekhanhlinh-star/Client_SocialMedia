@@ -18,17 +18,23 @@ import {
     ModalOverlay,
     Spacer,
     StackDivider,
+    Tab,
+    TabList,
+    TabPanel,
+    TabPanels,
+    Tabs,
     Text,
     useDisclosure,
     useToast,
     VStack
 } from "@chakra-ui/react";
-import React, {useEffect, useRef, useState} from "react";
+import React, { useEffect, useRef, useState } from "react";
 
 import axios from "axios";
 import { EditCoverPicModal } from "./EditCoverPicModal";
 import { EditProfileModal } from "./EditProfileModal";
-import {useParams} from "react-router-dom";
+import { useParams } from "react-router-dom";
+import { FollowShow } from "./Follow";
 
 interface ProfileInfo {
     firstName: string;
@@ -39,14 +45,15 @@ interface ProfileInfo {
     likes: any[]; // Update the type based on your actual data structure
     retweets: any[]; // Update the type based on your actual data structure
     followers: any[]; // Update the type based on your actual data structure
-
+    _id: string
 }
 
 const CoverPicture = () => {
 
+
     const [loading, setLoading] = useState(false);
     const toast = useToast()
-    const {isOpen, onOpen, onClose} = useDisclosure();
+    const { isOpen, onOpen, onClose } = useDisclosure();
     const [selectedImage, setSelectedImage] = useState<string>("https://phutungnhapkhauchinhhang.com/wp-content/uploads/2020/06/default-thumbnail.jpg");
     let [file, setFile] = useState<File | null>(null);
     const token = localStorage.getItem("token");
@@ -75,7 +82,7 @@ const CoverPicture = () => {
     }, []);
 
     const [src, setSrc] = useState(null);
-    const [crop, setCrop] = useState({unit: "%", width: 30, aspect: 16 / 9});
+    const [crop, setCrop] = useState({ unit: "%", width: 30, aspect: 16 / 9 });
     const fileInputRef = useRef<HTMLInputElement | null>(null);
     const [ImageAI, setImageAI] = useState<File>();
     const handleClickSelectFile = () => {
@@ -140,8 +147,8 @@ const CoverPicture = () => {
                     // Check if the Content-Type is 'image/png'
                     if (contentType && contentType.includes('image/png')) {
                         const filename = "output.png"
-                        const blob = new Blob([response.data], {type: "image/png"});
-                        const fileAI = new File([blob], filename, {type: "image/png"});
+                        const blob = new Blob([response.data], { type: "image/png" });
+                        const fileAI = new File([blob], filename, { type: "image/png" });
 
                         setImageAI(fileAI)
                         setFile(fileAI)
@@ -161,6 +168,7 @@ const CoverPicture = () => {
         }
 
     }
+
 
 
     console.log(profileinfo?.profilePic.filename);
@@ -184,11 +192,10 @@ const CoverPicture = () => {
         }
 
     };
+
+    console.log(profileinfo)
     return (
-
-
-        <Box bg={"white"} mt={2}>
-
+        <Box bg={"white"} mt={2} >
             <Container
                 bgSize="cover"
                 bgPosition="center"
@@ -198,10 +205,8 @@ const CoverPicture = () => {
                 justifyContent={"center"}
                 bg={"white"}
 
-
             >
-
-                <EditCoverPicModal data={profileinfo?.coverPhoto.filename}/>
+                <EditCoverPicModal data={profileinfo?.coverPhoto.filename} />
                 <AspectRatio ratio={16 / 9}>
 
                     <Image
@@ -214,32 +219,26 @@ const CoverPicture = () => {
 
 
                 <Flex position={"absolute"} zIndex={900} bottom={-170} pr={170} justifyContent={"center"}
-                      borderRadius={8}>
+                    borderRadius={8}>
                     <VStack
-                        divider={<StackDivider/>}
+                        divider={<StackDivider />}
                         spacing={3}
                         align="stretch"
-
                     >
-
                         <Flex justifyItems={"center-space"} alignItems={"center"}>
-
-
                             <Modal
-
                                 isOpen={isOpen}
                                 onClose={onClose}
-
                             >
                                 <ModalOverlay px={90}>
                                     <ModalContent>
-                                        <ModalHeader>Edit profile</ModalHeader>
-                                        <ModalCloseButton/>
+                                        <ModalHeader ml={0}>Edit profile</ModalHeader>
+                                        <ModalCloseButton />
                                         <ModalBody>
                                             <input
                                                 type="file"
                                                 ref={fileInputRef}
-                                                style={{display: "none"}}
+                                                style={{ display: "none" }}
                                                 onChange={handleFileChange}
                                                 accept="image/*"
                                             />
@@ -247,7 +246,6 @@ const CoverPicture = () => {
                                                 src={URL.createObjectURL(ImageAI)}
                                                 minWidth="400px"
                                                 borderRadius={10}
-                                                // Add other Image component props if needed
                                             />) : (<Image
                                                 src={selectedImage}
                                                 minWidth="400px" borderRadius={10}
@@ -263,7 +261,7 @@ const CoverPicture = () => {
                                             <CircularProgress
                                                 isIndeterminate
                                                 color='green.300'
-                                                style={{visibility: loading ? 'visible' : 'hidden'}}
+                                                style={{ visibility: loading ? 'visible' : 'hidden' }}
                                             />
 
                                             <Button colorScheme={"red"} mr={4} onClick={handle_click_generate}>Create
@@ -279,7 +277,7 @@ const CoverPicture = () => {
 
 
                             <Avatar size="xl" name="Segun Adebayo" onClick={onOpen}
-                                    src={"http://localhost:5000/uploads/" + profileinfo?.profilePic.filename}/>
+                                src={"http://localhost:5000/uploads/" + profileinfo?.profilePic.filename} />
                             <Heading ml={4} size="lg">{profileinfo?.firstName + " " + profileinfo?.lastName}</Heading>
                         </Flex>
 
@@ -289,7 +287,7 @@ const CoverPicture = () => {
                                 <Box p="2">
                                     <Heading size="md">Chakra App</Heading>
                                 </Box>
-                                <Spacer/>
+                                <Spacer />
 
 
                                 <ButtonGroup gap="1">
@@ -301,20 +299,13 @@ const CoverPicture = () => {
                             </Flex>
 
                             <Flex minWidth="max-content" gap="2">
-                                <Box p="2">
+                                <FollowShow data={{
+                                    id: profileinfo?._id,
+                                }} />
 
-                                    <Text as="i" fontSize="md">
-                                        <Text fontSize="md" as="b" color="tomato">
-                                            1
-                                        </Text> Following</Text>
-                                </Box>
-                                <Box p="2">
-                                    <Text as="i" fontSize="md">
-                                        <Text fontSize="md" as="b" color="tomato">
-                                            1
-                                        </Text> Followers</Text>
-                                </Box>
-                                <Spacer/>
+
+
+                                <Spacer />
 
 
                             </Flex>
@@ -328,7 +319,7 @@ const CoverPicture = () => {
 
 
             </Container>
-        </Box>
+        </Box >
 
 
     );

@@ -1,6 +1,6 @@
 'use client'
 
-import React, { ReactNode } from 'react'
+import React, { ReactNode, useEffect } from 'react'
 import {
   IconButton,
   Box,
@@ -30,15 +30,17 @@ import { ReactText } from 'react'
 interface LinkItemProps {
   name: string
   icon: IconType
-    link:string
+  link: string
 }
 const LinkItems: Array<LinkItemProps> = [
-  { name: 'Home', icon: FiHome ,link:"/home" },
-  { name: 'Trending', icon: FiTrendingUp,link:"/home"  },
-  { name: 'Explore', icon: FiCompass,link:"/explore"  },
-  { name: 'Favourites', icon: FiStar,link:"/home"  },
-  { name: 'Logout', icon: HiOutlineLogout,link:"/home"  },
+  { name: 'Home', icon: FiHome, link: "/home" },
+  { name: 'Trending', icon: FiTrendingUp, link: "/home" },
+  { name: 'Explore', icon: FiCompass, link: "/explore" },
+  { name: 'Favourites', icon: FiStar, link: "/home" },
+  { name: 'Logout', icon: HiOutlineLogout, link: "/home" },
 ]
+
+
 
 export default function Sidebar() {
   const { isOpen, onOpen, onClose } = useDisclosure()
@@ -77,33 +79,38 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
       w={{ base: 'full', md: 60 }}
       pos="fixed"
       h="full"
+      size="full"
+
       {...rest}>
-      <Box
-            as="a"
-       href={"/profile"}
-            style={{ textDecoration: 'none' }}
-      _focus={{ boxShadow: 'none' }}>
+      {/* <Box
+        as="a"
+        href={"/profile"}
+        style={{ textDecoration: 'none' }}
+        _focus={{ boxShadow: 'none' }}>
 
         <Flex
 
-        align="center"
-        p="4"
-        mx="4"
-        mt={3}
-        borderRadius="lg"
-        role="group"
-        cursor="pointer"
-        _hover={{
-          color: 'white',
-            bgGradient:   useColorModeValue("linear(to-l,#05020b,#34073d)","linear(to-l, #7928CA, #FF0080)" )
-        }}><Avatar ></Avatar>
-          <Text ml={2}  fontSize='xs'  noOfLines={1}  as='b'>
-            Lee Khanh Linh
+          align="center"
+          p="4"
+          mx="4"
+          mt={3}
+          borderRadius="lg"
+          role="group"
+          cursor="pointer"
+          _hover={{
+            color: 'white',
+            bgGradient: useColorModeValue("linear(to-l,#05020b,#34073d)", "linear(to-l, #7928CA, #FF0080)")
+          }}>
+
+
+          <Avatar src={"http://localhost:5000/uploads/1701528882895.jpg"} ></Avatar>
+          <Text ml={2} fontSize='xs' noOfLines={1} as='b'>
+
           </Text>
         </Flex>
 
 
-      </Box>
+      </Box> */}
 
       {LinkItems.map((link) => (
         <NavItem key={link.name} icon={link.icon} link={link.link}>
@@ -116,10 +123,10 @@ const SidebarContent = ({ onClose, ...rest }: SidebarProps) => {
 
 interface NavItemProps extends FlexProps {
   icon: IconType
-    link: string
+  link: string
   children: ReactText
 }
-const NavItem = ({ icon,link,children, ...rest }: NavItemProps) => {
+const NavItem = ({ icon, link, children, ...rest }: NavItemProps) => {
   return (
     <Box
       as="a"
@@ -137,7 +144,7 @@ const NavItem = ({ icon,link,children, ...rest }: NavItemProps) => {
         _hover={{
           bg: "rgb(215,36,141)",
           color: 'white',
-  bgGradient:   useColorModeValue("linear(to-l,#05020b,#34073d)","linear(to-l, #7928CA, #FF0080)" )
+          bgGradient: useColorModeValue("linear(to-l,#05020b,#34073d)", "linear(to-l, #7928CA, #FF0080)")
         }}
         {...rest}>
         {icon && (

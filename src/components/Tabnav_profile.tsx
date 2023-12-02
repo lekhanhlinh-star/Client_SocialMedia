@@ -1,6 +1,6 @@
-import {Box, Tab, TabList, TabPanel, TabPanels, Tabs} from "@chakra-ui/react";
+import { Box, Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import Post from "./Post";
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import axios from "axios";
 
 export const Tabnav_profile = () => {
@@ -8,16 +8,19 @@ export const Tabnav_profile = () => {
     const [offset, setOffset] = useState(1);
     const [postListComment, setpostListComment] = useState([] as any[]);
 
-
+    const token = localStorage.getItem("token");
     useEffect(() => {
         const fetchData = async () => {
             try {
                 const response = await axios.get(
-                    `http://localhost:5000/api/v1/posts/postOfMe?&limit=5&page=${offset}`
+                    `http://localhost:5000/api/v1/posts/postOfMe?limit=5&page=${offset}`, {
+                    headers: {
+                        "Content-Type": "application/json", "authorization": `Bearer ${token}`
+                    },
+                }
+
                 );
-
                 const data = response.data["data"]["doc"];
-
                 if (data) {
                     setPostList((prevPostList) => [...prevPostList, data]);
                 }
@@ -25,11 +28,10 @@ export const Tabnav_profile = () => {
                 console.log(error);
             }
         };
-
         fetchData();
     }, [offset]);
 
-      useEffect(() => {
+    useEffect(() => {
         const handleScroll = () => {
             const scrollHeight = document.documentElement.scrollHeight;
             const currentHeight =
@@ -43,7 +45,7 @@ export const Tabnav_profile = () => {
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
     return (<>
-        <Tabs isFitted variant='enclosed'   bg={"white"} borderRadius={5}>
+        <Tabs isFitted variant='enclosed' bg={"white"} borderRadius={5}>
             <TabList mb='1em'>
                 <Tab>Post</Tab>
                 <Tab>Comment</Tab>
@@ -54,11 +56,10 @@ export const Tabnav_profile = () => {
                 <TabPanel alignItems={"center"}>
 
                     <Box alignContent={"center"} alignItems={"center"}>
-       {postList.map((innerArray) =>
-                        innerArray.map((post: any) => <Post data={post} />)
-                    )}
+                        {postList.map((innerArray) =>
+                            innerArray.map((post: any) => <Post data={post} />)
+                        )}
                     </Box>
-
 
                 </TabPanel>
                 <TabPanel>

@@ -1,7 +1,16 @@
-import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Heading, Text, Button, Avatar, Flex } from '@chakra-ui/react'
+import { Card, CardHeader, CardBody, CardFooter, Image, Stack, Heading, Text, Button, Avatar, Flex, Box, useColorModeValue } from '@chakra-ui/react'
+
+interface ProfileInfo {
+    id: string | undefined
+    firstName: string | undefined
+    lastName: string | undefined
+    profilePic: string | undefined
 
 
-export default function User() {
+
+
+}
+export default function User(props: ProfileInfo) {
 
 
 
@@ -12,24 +21,37 @@ export default function User() {
             >
 
 
-                <Flex direction={"row"}>
-                    <CardBody>
 
-                        <Avatar
+                <CardBody>
+                    <Box
+                        as="a"
+                        href={"/profile/" + props.id}
+                        style={{ textDecoration: 'none' }}
+                        _focus={{ boxShadow: 'none' }}
+                    >
+                        <Flex
+                            align="center"
+                            p="4"
+                            mx="4"
+                            mt={3}
+                            borderRadius="lg"
+                            role="group"
+                            cursor="pointer"
+                            _hover={{
+                                bg: "rgb(215,36,141)", color: 'white',
+                                bgGradient: useColorModeValue("linear(to-l,#05020b,#34073d)", "linear(to-l, #7928CA, #FF0080)")
+                            }}
+                        >
+                            <Avatar src={"http://127.0.0.1:5000/uploads/" + props.profilePic} mr={5}></Avatar>
+                            <Text fontSize={"20px"}> {props.firstName + " " + props.lastName} </Text>
 
-                            src='https://images.unsplash.com/photo-1667489022797-ab608913feeb?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHw5fHx8ZW58MHx8fHw%3D&auto=format&fit=crop&w=800&q=60'
 
-                        />
+                        </Flex>
+                    </Box>
 
-                        <Heading size='md'>The perfect latte</Heading>
 
-                        <Text py='2'>
-                            Caffè latte is a coffee beverage of Italian origin made with espresso
-                            and steamed milk.
-                        </Text>
-                    </CardBody>
+                </CardBody>
 
-                </Flex>
             </Card>
 
         </>

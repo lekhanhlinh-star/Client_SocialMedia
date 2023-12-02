@@ -43,6 +43,7 @@ import axios from "axios";
 import React, { useEffect, useRef, useState } from "react";
 import { FcPanorama } from "react-icons/fc";
 import { useNavigate } from "react-router-dom";
+import { FormEdit } from "./FormEdit";
 
 export default function Post(data: any) {
 
@@ -51,6 +52,16 @@ export default function Post(data: any) {
 
     const { isOpen: isOpen1, onOpen: onOpen1, onClose: onClose1 } = useDisclosure();
     const { isOpen: isOpen2, onOpen: onOpen2, onClose: onClose2 } = useDisclosure();
+    // const { isOpen: isOpen3, onOpen: onOpen3, onClose: onClose3 } = useDisclosure();
+    const [isOpen3, setIsOpen3] = useState(false);
+
+    const handleOpenForm = () => {
+        setIsOpen3(true);
+    };
+
+    const handleCloseForm = () => {
+        setIsOpen3(false);
+    };
 
     // const { isOpen, onOpen, onClose } = useDisclosure()
     const [previewImage, setPreviewImage] = useState<string | null>(null);
@@ -267,7 +278,6 @@ export default function Post(data: any) {
 
                     <Box>
                         <Heading size='sm'></Heading>
-
                         <Text onClick={profileclick}
                             style={{ cursor: 'pointer' }}>{`${data.data.postedBy["firstName"]} ${data.data.postedBy["lastName"]}`}</Text>
                     </Box>
@@ -291,7 +301,7 @@ export default function Post(data: any) {
                             <AlertDialogOverlay>
                                 <AlertDialogContent>
                                     <AlertDialogHeader fontSize='lg' fontWeight='bold'>
-                                        Delete Customer
+                                        Delete this post
                                     </AlertDialogHeader>
                                     <AlertDialogBody>
                                         Are you sure? You can't undo this action afterwards.
@@ -307,12 +317,11 @@ export default function Post(data: any) {
                                 </AlertDialogContent>
                             </AlertDialogOverlay>
                         </AlertDialog>
-                        <div id="alert-container"></div>
-
-
-                        <MenuItem icon={<EditIcon />} >
+                        <MenuItem icon={<EditIcon />} onClick={handleOpenForm}>
                             Edit
                         </MenuItem>
+                        {isOpen3 && <FormEdit data={data.data} onClose={handleCloseForm} />}
+
 
                     </MenuList>
                 </Menu>
@@ -367,11 +376,9 @@ export default function Post(data: any) {
                                 src={`http://127.0.0.1:5000/uploads/${data.data.postedBy["profilePic"].filename}`} />
 
                             <Input variant='flushed' placeholder="Enter your reply"
-
                                 name="content"
                                 value={formDataPost.content}
                                 onChange={handleInputChange}
-
                             />
                             {previewImage &&
 
@@ -383,8 +390,6 @@ export default function Post(data: any) {
 
                                     <Center>
                                         <Text m={2}>Add to your reply</Text>
-
-
                                     </Center>
 
                                     <input
