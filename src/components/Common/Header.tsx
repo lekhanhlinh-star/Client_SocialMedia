@@ -49,13 +49,13 @@ function Header(props:ProfileInfo ) {
     return (
 
         <Box as={"nav"} py={3}   position={"sticky"} top={0}
-             bgGradient={  useColorModeValue(  "linear(to-l,#05020b,#34073d)","linear(to-l, #7928CA, #FF0080)")}
+             bgGradient={  useColorModeValue(  "linear(to-l,#05020b,#34073d)", "linear(to-l,#05020b,#34073d)")}
              zIndex={999}>
             <Flex justify="space-between" align="center" maxW="1400px" mx="auto" color={"white"}>
 
 
 
-                <Avatar as={"a"} href={"/home"} src={"logo.png"}></Avatar>
+                <Avatar as={"a"} href={"/"} src={"logo.png"}></Avatar>
                     <Input ml={"5"} width={"250px"} placeholder='Search...' bg={"white"} color={"black"}
                        value={searchString}
                        onChange={(e) => setSearchString(e.target.value)}    borderRadius={40}
@@ -64,11 +64,12 @@ function Header(props:ProfileInfo ) {
                 <Spacer/>
                  <Spacer/>
 
-                <Heading as="h2" size="lg">
-                    Social Network
+                <Heading as="h2" size="lg" fontFamily="Helvetica">
+                    LTL social media
                 </Heading>
 
 
+                <Spacer/>
                 <Spacer/>
 
                 <HStack>

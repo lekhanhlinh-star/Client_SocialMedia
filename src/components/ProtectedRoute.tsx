@@ -3,13 +3,13 @@ import  AuthContextProps,{useAuth,} from "../provider/AuthProvider";
 import {useToast} from "@chakra-ui/react";
 
 
-export function ProtectedRoute() {
+export function  ProtectedRoute() {
     const toast=useToast()
-    let token = useAuth();
+    let token =useAuth();
     let datatoken= JSON.stringify(token)
     let dataTokenO= JSON.parse(datatoken);
 
-    console.log("data of token", dataTokenO.token)
+    // console.log("data of token", dataTokenO.token)
     // Check if the user is authenticated
     if (!dataTokenO.token) {
         // If not authenticated, redirect to the login page

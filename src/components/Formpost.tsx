@@ -18,22 +18,22 @@ import {
     useDisclosure,
     useToast
 } from "@chakra-ui/react";
-import {FcPanorama} from "react-icons/fc";
-import React, {useRef, useState} from "react";
+import { FcPanorama } from "react-icons/fc";
+import React, { useRef, useState } from "react";
 import axios from "axios";
 
 
 
 interface ProfileInfo {
-    firstName:string|undefined
-    lastName: string|undefined
-    profilePic: string|undefined
+    firstName: string | undefined
+    lastName: string | undefined
+    profilePic: string | undefined
 
 
 
 }
-export function Formpost( props:ProfileInfo) {
-    const {isOpen, onOpen, onClose} = useDisclosure();
+export function Formpost(props: ProfileInfo) {
+    const { isOpen, onOpen, onClose } = useDisclosure();
 
     const toast = useToast();
     const fileInputRef = useRef<HTMLInputElement | null>(null);
@@ -52,14 +52,14 @@ export function Formpost( props:ProfileInfo) {
 
     const [previewImage, setPreviewImage] = useState<string | null>(null);
     const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        const {name, value} = event.target;
+        const { name, value } = event.target;
         setFormDataPost((prevFormDataPost) => ({
             ...prevFormDataPost, [name]: value,
         }));
     };
     const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
         const selectedFile = event.target.files && event.target.files[0];
-        let {name, value} = event.target;
+        let { name, value } = event.target;
         name = "image";
         if (selectedFile) {
             const reader = new FileReader();
@@ -79,7 +79,7 @@ export function Formpost( props:ProfileInfo) {
         }));
 
     };
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+    const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
         event.preventDefault();
         try {
             console.log("onSubmit");
@@ -90,7 +90,7 @@ export function Formpost( props:ProfileInfo) {
 
             console.log("token", token);
 
-            axios.post("http://localhost:5000/api/v1/posts", formDataPost, {
+            await axios.post("http://localhost:5000/api/v1/posts", formDataPost, {
                 headers: {
                     "Content-Type": "multipart/form-data", "authorization": `Bearer ${token}`,
                 },
@@ -99,7 +99,7 @@ export function Formpost( props:ProfileInfo) {
                 toast({
                     title: "Create new post successful", status: "success", duration: 9000, isClosable: true, position: "top",
                 });
-                window.location.reload();
+                // window.location.reload();
             }).catch(error => {
                 toast({
                     title: error.response.data.message, status: "error", duration: 9000, isClosable: true, position: "top",
@@ -119,34 +119,34 @@ export function Formpost( props:ProfileInfo) {
 
 
     return (<>
-        <Card minH={"120px"}   mb={3} mt={10}>
+        <Card minH={"120px"} mb={3} mt={10}>
 
 
             <Flex borderRadius={"10px"}>
                 <Center ml={10}>
-                        <Avatar name={props.firstName} src={"http://127.0.0.1:5000/uploads/"+props.profilePic}/>
+                    <Avatar name={props.firstName} src={"http://127.0.0.1:5000/uploads/" + props.profilePic} />
                 </Center>
 
                 <Center>
-                    <Input  placeholder="What's happening?" size={"lg"} minW={"400px"} m={4} onClick={onOpen}
+                    <Input placeholder="What's happening?" size={"lg"} minW={"400px"} m={4} onClick={onOpen}
 
-                           borderRadius={50}></Input>
+                        borderRadius={50}></Input>
                     <Modal isOpen={isOpen} onClose={onClose}>
-                        <ModalOverlay/>
+                        <ModalOverlay />
                         <ModalContent>
                             <ModalHeader alignContent={"center"}>Create post</ModalHeader>
                             <form onSubmit={handleSubmit}>
 
-                                <ModalCloseButton/>
+                                <ModalCloseButton />
                                 <ModalBody>
-                                       <Avatar name={props.firstName} src={"http://127.0.0.1:5000/uploads/"+props.profilePic}/>
+                                    <Avatar name={props.firstName} src={"http://127.0.0.1:5000/uploads/" + props.profilePic} />
 
 
                                     <Input variant="flushed" placeholder="What's on your mind now ?"
 
-                                           name="content"
-                                           value={formDataPost.content}
-                                           onChange={handleInputChange}
+                                        name="content"
+                                        value={formDataPost.content}
+                                        onChange={handleInputChange}
 
                                     />
                                     <Image
@@ -170,10 +170,10 @@ export function Formpost( props:ProfileInfo) {
                                             <input
                                                 type="file"
                                                 ref={fileInputRef}
-                                                style={{display: "none"}}
+                                                style={{ display: "none" }}
                                                 onChange={handleFileChange}
                                             />
-                                            <Button leftIcon={<FcPanorama/>} onClick={handleClickSelectFile}>Photo/video
+                                            <Button leftIcon={<FcPanorama />} onClick={handleClickSelectFile}>Photo/video
 
                                             </Button>
 
@@ -187,7 +187,7 @@ export function Formpost( props:ProfileInfo) {
                                 <ModalFooter>
 
                                     <Button colorScheme="blue" mr={3} type="submit"
-                                            w={"full"}>
+                                        w={"full"}>
                                         Post
                                     </Button>
 
@@ -199,15 +199,15 @@ export function Formpost( props:ProfileInfo) {
                 </Center>
             </Flex>
             <Flex justify={"space-between"}
-                  alignItems="center"
-                  justifyContent="center" pb={5}>
+                alignItems="center"
+                justifyContent="center" pb={5}>
 
-                <Button leftIcon={<FcPanorama/>} aria-label={"Image_post"}
-                        ml={5}>Photo/video</Button>
-                <Spacer/>
-                <Button leftIcon={<FcPanorama/>}>Photo/video</Button>
-                <Spacer/>
-                <Button mr={5} leftIcon={<FcPanorama/>}>Photo/video</Button>
+                <Button leftIcon={<FcPanorama />} aria-label={"Image_post"}
+                    ml={5}>Photo/video</Button>
+                <Spacer />
+                <Button leftIcon={<FcPanorama />}>Photo/video</Button>
+                <Spacer />
+                <Button mr={5} leftIcon={<FcPanorama />}>Photo/video</Button>
 
 
             </Flex>

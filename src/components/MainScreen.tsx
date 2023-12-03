@@ -1,5 +1,5 @@
 import Sidebar from "./Sidebar";
-import {Container, Flex, useColorModeValue} from "@chakra-ui/react";
+import { Container, Flex, useColorModeValue } from "@chakra-ui/react";
 import axios from 'axios';
 import { useEffect, useRef, useState } from "react";
 import Post from "./Post";
@@ -9,22 +9,28 @@ import ListFollowing from "./ListFollowing";
 
 
 interface ProfileInfo {
-    firstName:string|undefined
-    lastName: string|undefined
-    profilePic: string|undefined
+    firstName: string | undefined
+    lastName: string | undefined
+    profilePic: string | undefined
 
 
 
 }
-export function MainScreen(props:ProfileInfo) {
+export function MainScreen(props: ProfileInfo) {
     const [postList, setPostList] = useState([] as any[]);
     const [offset, setOffset] = useState(1);
 
     useEffect(() => {
         const fetchData = async () => {
             try {
+                const token = localStorage.getItem("token");
+
+                console.log("token", token);
                 const response = await axios.get(
-                    `http://localhost:5000/api/v1/posts?limit=5&page=${offset}`
+                    `http://localhost:5000/api/v1/posts?limit=5&page=${offset}`, {
+                    headers: { "Content-Type": "application/json", "authorization": `Bearer ${token}` },
+
+                }
                 );
                 const data = response.data["data"]["doc"];
                 if (data) {
@@ -56,18 +62,18 @@ export function MainScreen(props:ProfileInfo) {
 
     return (
         <>
-            <Flex letterSpacing={2}   bgGradient={useColorModeValue("linear(to-l,white,white)", "linear(to-l,#05020b,#34073d)")}
-            overflow={"hidden"}>
+            <Flex letterSpacing={2} bgGradient={useColorModeValue("linear(to-l,white,white)", "linear(to-l,#05020b,#34073d)")}
+                overflow={"hidden"}>
                 <Sidebar />
 
                 <Container alignContent={"center"}  >
                     <Formpost lastName={"Linh"} firstName={"Le"}
-                                    profilePic={props.profilePic} />
+                        profilePic={props.profilePic} />
                     {postList.map((innerArray) =>
                         innerArray.map((post: any) => <Post data={post} />)
                     )}
                 </Container>
-                <ListFollowing/>
+                <ListFollowing />
             </Flex>
         </>
     );

@@ -14,7 +14,7 @@ import {
     useDisclosure
 } from "@chakra-ui/react";
 import React from "react";
-import { DeleteIcon, EditIcon } from "@chakra-ui/icons";
+import {EditIcon} from "@chakra-ui/icons";
 
 export const EditPost = () => {
     const { isOpen, onOpen, onClose } = useDisclosure()

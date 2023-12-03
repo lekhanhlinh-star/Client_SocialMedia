@@ -83,7 +83,7 @@ export function Explore() {
         <Header firstName={undefined} lastName={undefined} profilePic={undefined}></Header>
         <Flex letterSpacing={2} bg={"rgb(240,242,245)"}>
             <Sidebar />
-            <Container alignContent={"center"}>
+            <Container alignContent={"center"} >
                 <Card minW={500} marginTop={5}>
                     <Flex mt={22}>
                         <Input margin={15} placeholder='🔍 Search' borderRadius={25} onChange={e => {
@@ -105,7 +105,7 @@ export function Explore() {
                         />
 
                     </Flex>
-                    <Flex>
+                    <Flex mb={10}>
                         <Spacer />
                         <RadioGroup defaultValue='2' value={selectedValue} onChange={setSelectedValue}>
                             <Stack spacing={5} direction='row'>
@@ -120,7 +120,7 @@ export function Explore() {
                         <Spacer />
 
                     </Flex>
-
+{/* 
 
                     <Flex direction="column" style={{ cursor: 'pointer' }}>
                         <Text align={"left"} as='b' pb={5} marginLeft={15} fontSize={15}>Trends</Text>
@@ -138,7 +138,7 @@ export function Explore() {
                             bgGradient: "linear(to-l, #e1e1e1, #8b8b8b)"
                         }}>Show more</Text>
 
-                    </Flex>
+                    </Flex> */}
 
                 </Card>
                 <Container mt={10}>

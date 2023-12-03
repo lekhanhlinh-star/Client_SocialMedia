@@ -33,7 +33,7 @@ export function PostWithComment() {
 
     const [main_post, setmain_post] = useState<any>();
 
-    const [comment, setcomment] = useState<any>()
+    const [comment, setcomment] = useState<any>([])
     useEffect(() => {
         const fetchData = async () => {
             try {
@@ -44,7 +44,7 @@ export function PostWithComment() {
                 }).then(data => {
                     if (data) {
                         setmain_post(data.data["data"]["doc"])
-                          console.log("check_data",data.data.data["doc"])
+                        //   console.log("check_data",data.data.data["doc"])
                     }
                 }).catch(err => {
                     console.log(err)
@@ -62,7 +62,7 @@ export function PostWithComment() {
                 await axios.get(`http://127.0.0.1:5000/api/v1/posts?replyTo=${id.id}`, {
                     headers: {
                         'Content-Type': 'multipart/form-data',
-                        // 'authorization': `Bearer ${token}`,
+                        'authorization': `Bearer ${token}`,
                     },
                 }).then(data => {
                     if (data) {
@@ -130,10 +130,14 @@ export function PostWithComment() {
                             </Text>
                         </CardBody>
 
-                        {check_post ? (<Image minW={"400px"} minH={"400px"}
-                            objectFit='cover'
-                            src={`http://127.0.0.1:5000/uploads/${main_post.image[0]?.filename}`}
-                        />) : null}
+                        {check_post && main_post && main_post.image && main_post.image[0] && (
+    <Image
+        minW={"400px"}
+        minH={"400px"}
+        objectFit='cover'
+        src={`http://127.0.0.1:5000/uploads/${main_post.image[0]?.filename}`}
+    />
+)}
                         <CardFooter
                             justify='space-between'
                             flexWrap='wrap'
